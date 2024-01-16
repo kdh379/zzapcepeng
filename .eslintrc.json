@@ -1,3 +1,33 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "plugins": [
+    "simple-import-sort",
+    "unused-imports"
+  ],
+  "rules": {
+    "indent": ["error", 2],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "react/jsx-first-prop-new-line": "error",
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "unused-imports/no-unused-imports-ts": ["error"],
+    "react/react-in-jsx-scope": 0,
+    "comma-spacing": ["error", { "before": false, "after": true }]
+  }
 }

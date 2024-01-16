@@ -1,22 +1,24 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from "next";
+
+import Providers from "@/components/Provider";
 
 export const metadata: Metadata = {
-  title: '짭이스펭',
-  description: '로스트아크 각인 계산기',
-}
+  title: "짭이스펭",
+  description: "로스트아크 각인 계산기",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
-  )
+  );
 }
