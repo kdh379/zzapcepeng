@@ -1,17 +1,30 @@
-import { ChakraProvider, Flex } from "@chakra-ui/react";
-import { Inter } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import { PropsWithChildren } from "react";
 
-import theme from "@/styles/theme";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider } from "./ThemeProvider";
+
+
+const notoSansKr = Noto_Sans_KR({
+  weight: ["500"],
+  subsets: ["latin"],
+});
 
 export default function Providers(props: PropsWithChildren) {
   return (
-    <ChakraProvider theme={theme}>
-      <Flex className={inter.className}>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <div className={cn(
+        "min-h-screen bg-background antialiased",
+        notoSansKr.className
+      )}>
         {props.children}
-      </Flex>
-    </ChakraProvider>
+      </div>
+    </ThemeProvider>
   );
 }
