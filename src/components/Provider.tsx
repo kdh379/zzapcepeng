@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 
 import { cn } from "@/lib/utils";
 
+import Header from "./layout/Header";
 import { ThemeProvider } from "./ThemeProvider";
 
 
@@ -23,6 +24,7 @@ export default function Providers(props: PropsWithChildren) {
         "min-h-screen bg-background antialiased",
         notoSansKr.className
       )}>
+        <Header />
         {props.children}
       </div>
     </ThemeProvider>

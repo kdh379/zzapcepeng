@@ -1,5 +1,15 @@
 import type { Config } from "tailwindcss";
 
+const screenValue = {
+  // [breakpoint, max-width]
+  mobile: [480, 600],
+  tablet: [600, 900],
+  desktop: [1200, 1200],
+};
+
+const screens = Object.fromEntries( Object.entries( screenValue ).map( ( [key, value] ) => [key, `${value[0]}px`] ) );
+const screenWidth = Object.fromEntries( Object.entries( screenValue ).map( ( [key, value] ) => [key, `${value[1]}px`] ) );
+
 const config = {
   darkMode: ["class"],
   content: [
@@ -15,6 +25,7 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+        ...screens,
       },
     },
     extend: {
@@ -71,6 +82,12 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      width: {
+        ...screenWidth,
+      },
+      maxWidth: {
+        ...screenWidth,
       },
     },
   },
