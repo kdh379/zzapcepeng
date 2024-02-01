@@ -20,6 +20,9 @@ const config = {
   ],
   prefix: "",
   theme: {
+    fontFamily: {
+      "pretendard": ["'Pretendard Variable'", "Pretendard", ...require("tailwindcss/defaultTheme").fontFamily.sans],
+    },
     container: {
       center: true,
       padding: "2rem",
