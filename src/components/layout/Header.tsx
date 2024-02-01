@@ -1,6 +1,6 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "lucide-react";
+import { LogInIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -23,7 +23,7 @@ export default function Header() {
   });
 
   return <header className="flex items-center max-w-desktop mx-auto py-4">
-    <span className="text-lg text-foreground font-semibold">짭이스펭</span>
+    <span className="text-2xl text-foreground font-extrabold">Lcalc</span>
     <div className="flex items-center ml-auto gap-x-4">
       <Form {...form}>
         <FormField
@@ -37,12 +37,14 @@ export default function Header() {
             </FormItem>
           )}
         />
-        <Button type="submit" variant="default" size="sm">로그인</Button>
+        <Button type="submit" variant="default" size="sm">
+          <LogInIcon className="size-4" />
+        </Button>
       </Form>
-      <Button variant={"ghost"} onClick={() => setTheme("light")}>
+      <Button className="dark:hidden" variant={"ghost"} onClick={() => setTheme("dark")}>
         <SunIcon className="w-6 h-6" />
       </Button>
-      <Button variant={"ghost"} onClick={() => setTheme("dark")}>
+      <Button className="hidden dark:block" variant={"ghost"} onClick={() => setTheme("light")}>
         <MoonIcon className="w-6 h-6" />
       </Button>
     </div>
