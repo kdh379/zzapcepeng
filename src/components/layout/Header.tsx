@@ -2,6 +2,7 @@
 
 import { LogInIcon, MoonIcon, SunIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,8 +17,18 @@ const formSchema = z.object({
   apiKey: z.string().min(1),
 });
 
-export default function Header() {
+function ToggleTheme() {
   const { theme, setTheme } = useTheme();
+
+  return <Button variant={"ghost"} onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+    <SunIcon className={cn(" w-6 h-6", theme === "dark" && "hidden")} />
+    <MoonIcon className={cn("hidden w-6 h-6", theme === "dark" && "block")} />
+  </Button>;
+
+}
+
+export default function Header() {
+  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -26,13 +37,20 @@ export default function Header() {
   });
 
   return <header className="flex items-center mx-auto py-4">
-    <span className="text-2xl text-foreground font-extrabold">Lcalc</span>
-    <nav>
+    <nav className="flex items-center space-x-8">
+      <Link href="/">
+        <span className="text-2xl text-foreground font-extrabold">Lcalc</span>
+      </Link>
       <ul className="flex items-center gap-x-4 ml-4">
         <li>
           <Link href="/engraving">
-            <Button type="button" variant="ghost" size="sm">
-              Engraving
+            <Button
+              type="button"
+              className={cn("text-muted-foreground", pathname === "/engraving" && "text-primary")}
+              variant="ghost"
+              size="sm"
+            >
+              각인 계산기
             </Button>
           </Link>
         </li>
@@ -55,11 +73,7 @@ export default function Header() {
           <LogInIcon className="size-4" />
         </Button>
       </Form>
-      <Button className="dark:hidden" variant={"ghost"} onClick={() => setTheme("dark")}>
-        <SunIcon className={cn("w-6 h-6", theme === "dark" && "hidden")} />
-        <MoonIcon className="w-6 h-6" />
-      </Button>
-      <Button className="hidden dark:block" variant={"ghost"} onClick={() => setTheme("light")} />
+      <ToggleTheme />
     </div>
   </header>;
 }
