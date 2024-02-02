@@ -1,9 +1,12 @@
 "use client";
 
 import { LogInIcon, MoonIcon, SunIcon } from "lucide-react";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
+import { cn } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
@@ -14,7 +17,7 @@ const formSchema = z.object({
 });
 
 export default function Header() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -22,8 +25,19 @@ export default function Header() {
     },
   });
 
-  return <header className="flex items-center max-w-desktop mx-auto py-4">
+  return <header className="flex items-center mx-auto py-4">
     <span className="text-2xl text-foreground font-extrabold">Lcalc</span>
+    <nav>
+      <ul className="flex items-center gap-x-4 ml-4">
+        <li>
+          <Link href="/engraving">
+            <Button type="button" variant="ghost" size="sm">
+              Engraving
+            </Button>
+          </Link>
+        </li>
+      </ul>
+    </nav>
     <div className="flex items-center ml-auto gap-x-4">
       <Form {...form}>
         <FormField
@@ -32,7 +46,7 @@ export default function Header() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="text" className="w-96" placeholder="API 키를 입력해주세요." {...field} />
+                <Input type="text" className="w-64" placeholder="API 키를 입력해주세요." {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -42,11 +56,10 @@ export default function Header() {
         </Button>
       </Form>
       <Button className="dark:hidden" variant={"ghost"} onClick={() => setTheme("dark")}>
-        <SunIcon className="w-6 h-6" />
-      </Button>
-      <Button className="hidden dark:block" variant={"ghost"} onClick={() => setTheme("light")}>
+        <SunIcon className={cn("w-6 h-6", theme === "dark" && "hidden")} />
         <MoonIcon className="w-6 h-6" />
       </Button>
+      <Button className="hidden dark:block" variant={"ghost"} onClick={() => setTheme("light")} />
     </div>
   </header>;
 }
