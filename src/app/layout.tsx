@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
+import { Metadata } from "next/types";
 
 import Providers from "@/components/Provider";
 
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <body className="font-pretendard">
         <Providers>{children}</Providers>
       </body>
     </html>
