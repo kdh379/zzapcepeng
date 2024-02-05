@@ -13,7 +13,7 @@ export default function Providers(props: PropsWithChildren) {
       enableSystem
     >
       <div className={cn(
-        "min-h-screen mx-auto max-w-desktop bg-background antialiased"
+        "min-h-screen mx-auto px-8 bg-background antialiased"
       )}>
         <Header />
         {props.children}
