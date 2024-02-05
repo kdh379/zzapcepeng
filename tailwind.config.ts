@@ -23,13 +23,13 @@ const config = {
     fontFamily: {
       "pretendard": ["'Pretendard Variable'", "Pretendard", ...require("tailwindcss/defaultTheme").fontFamily.sans],
     },
+    screens: {
+      ...screens,
+      "2xl": "1400px",
+    },
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-        ...screens,
-      },
     },
     extend: {
       colors: {
