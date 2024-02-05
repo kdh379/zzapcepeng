@@ -1,8 +1,7 @@
 "use client";
 
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Command as CommandPrimitive } from "cmdk";
-import { PropsWithChildren, useState } from "react";
+import React from "react";
 
 import {
   Command,
@@ -16,60 +15,75 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
 
 interface ComboboxProps<T> extends 
-    React.ComponentProps<typeof CommandPrimitive.Input>,
     Pick<PopoverPrimitive.PopoverContentProps, "side" | "align">{
     itemList: Item<T>[];
+    children: React.ReactNode;
     renderItem: ( item: Item<T>, active: boolean ) => React.ReactNode;
-
+    
+    placeholder?: string;
     className?: string;
     emptyMessage?: string;
-    onChange?: ( item: Item<T> ) => void;
+    onChange?: ( value: string ) => void;
 }
 
 type Item<T> = {
     value: string;
 } & T;
 
-export default function Combobox<T>(props: PropsWithChildren<ComboboxProps<T>>) {
-  const {
-    itemList,
-    className,
-    children,
-    emptyMessage = "",
-    side = "bottom",
-    align = "start",
-    renderItem,
-    ...inputProps } = props;
+const Combobox = React.forwardRef(
+  <T extends unknown>(
+    props: ComboboxProps<T>,
+    ref: React.Ref<HTMLDivElement>
+  ) => {
+    const {
+      itemList,
+      className,
+      children,
+      emptyMessage = "",
+      side = "bottom",
+      align = "start",
+      placeholder,
+      renderItem } = props;
 
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Item<T> | null>(null);
+    const [open, setOpen] = React.useState(false);
+    const [selectedItem, setSelectedItem] = React.useState<string | null>(null);
+  
+    return <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        {children}
+      </PopoverTrigger>
+      <PopoverContent
+        className={cn("overflow-y-auto", className, children)}
+        side={side}
+        align={align}
+      >
+        <Command ref={ref}>
+          <CommandInput placeholder={placeholder}  />
+          <CommandEmpty>{emptyMessage}</CommandEmpty>
+          <CommandGroup className="overflow-y-auto">
+            {itemList.map((item, index) => 
+              <CommandItem
+                key={index}
+                value={item.value}
+                onSelect={() => {
+                  setOpen(false);
+                  setSelectedItem(item.value);
+                  props.onChange?.(item.value);
+                }}
+              >
+                {renderItem(item, selectedItem === item.value)}
+              </CommandItem>
+            )}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>;
+  });
 
-  return <Popover open={open} onOpenChange={setOpen}>
-    <PopoverTrigger asChild>
-      {children}
-    </PopoverTrigger>
-    <PopoverContent className={className}  side={side} align={align}>
-      <Command>
-        <CommandInput {...inputProps}  />
-        <CommandEmpty>{emptyMessage}</CommandEmpty>
-        <CommandGroup>
-          {itemList.map((item, index) => 
-            <CommandItem
-              key={index}
-              value={item.value}
-              onSelect={() => {
-                setOpen(false);
-                setSelectedItem(item);
-                props.onChange?.(item);
-              }}
-            >
-              {renderItem(item, selectedItem === item)}
-            </CommandItem>
-          )}
-        </CommandGroup>
-      </Command>
-    </PopoverContent>
-  </Popover>;
-}
+Combobox.displayName = "Combobox";
+
+export default Combobox as <T extends unknown>(props: ComboboxProps<T> & { ref?: React.Ref<HTMLDivElement> }) => JSX.Element;
