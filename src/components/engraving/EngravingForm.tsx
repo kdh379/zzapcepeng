@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import Combobox from "../ui/combobox";
-import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
 interface TargetFormProps {
@@ -33,7 +33,7 @@ export default function EngravingForm( props: TargetFormProps ) {
         {
           fields.map((field, index) => (
             <div key={field.id}>
-              <FormLabel>Eng{index+1}</FormLabel>
+              {/* <FormLabel>Eng{index+1}</FormLabel> */}
               <div className="flex items-center space-x-2">
                 <FormField
                   name={`targetEngList.${index}.eng`}
@@ -79,6 +79,8 @@ export default function EngravingForm( props: TargetFormProps ) {
                           <Input
                             type="number"
                             className="w-14"
+                            max={3}
+                            min={1}
                             disabled={form.getValues().targetEngList[index].eng === ""}
                             {...field} />
                         </FormControl>
@@ -117,7 +119,7 @@ export default function EngravingForm( props: TargetFormProps ) {
           </Button>
         </Combobox>
         <ul>
-          {Array.from({ length: 10 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
             <li key={index}>
               <Button
                 type="button"

@@ -20,7 +20,7 @@ const formSchema = z.object({
 function ToggleTheme() {
   const { theme, setTheme } = useTheme();
 
-  return <Button variant={"ghost"} onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+  return <Button variant={"ghost"} size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
     <SunIcon className={cn(" w-6 h-6", theme === "dark" && "hidden")} />
     <MoonIcon className={cn("hidden w-6 h-6", theme === "dark" && "block")} />
   </Button>;
@@ -70,7 +70,7 @@ export default function Header() {
               </FormItem>
             )}
           />
-          <Button type="submit" variant="default" size="sm">
+          <Button type="submit" variant="default" size="icon">
             <LogInIcon className="size-4" />
           </Button>
         </Form>

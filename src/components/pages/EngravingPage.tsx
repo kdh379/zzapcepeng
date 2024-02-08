@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import EngravingForm from "../engraving/EngravingForm";
-import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 
 const engFormSchema = z.object({
@@ -51,6 +50,10 @@ const defaultValues: EngFormValue = {
       eng: "",
       level: 3,
     },
+    {
+      eng: "",
+      level: 3,
+    },
   ],
 };
 
@@ -71,13 +74,6 @@ export default function EngravingPage() {
         <div className="grid grid-cols-1 tablet:grid-cols-2">
           <EngravingForm itemList={itemList} />
         </div>
-        <Button
-          type="submit"
-          size="lg"
-          className="col-span-2"
-        >
-          Calculate
-        </Button>
       </form>
     </Form>
   </div>;
